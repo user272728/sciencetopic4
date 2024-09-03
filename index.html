@@ -9,11 +9,25 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            overflow: hidden;
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            animation: backgroundAnimation 10s ease-in-out infinite;
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .login-container {
@@ -24,6 +38,16 @@
             backdrop-filter: blur(10px);
             text-align: center;
             width: 300px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: formLoad 1s ease-out forwards;
+        }
+
+        @keyframes formLoad {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h2 {
@@ -49,6 +73,12 @@
             color: #ffffff;
             font-size: 16px;
             outline: none;
+            transition: background 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         input[type="submit"] {
@@ -70,15 +100,15 @@
         .alert {
             color: #ff6666;
             margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
     </style>
     <script>
         function validateCredentials() {
-            // Get the input values
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
 
-            // Define valid credentials
             const validCredentials = {
                 "brian": "lee",
                 "user": "pass",
@@ -86,13 +116,12 @@
                 "guest": "1234"
             };
 
-            // Check if the entered credentials are valid
             if (validCredentials[username] && validCredentials[username] === password) {
-                // If valid, redirect to page.html
                 window.location.href = "page.html";
             } else {
-                // If invalid, show an alert
-                document.getElementById("alert").textContent = "Invalid username or password!";
+                const alertBox = document.getElementById("alert");
+                alertBox.textContent = "Invalid username or password!";
+                alertBox.style.opacity = 1;
             }
         }
     </script>
