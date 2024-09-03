@@ -3,63 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Protected Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        input[type="password"] {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            width: 80%;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            background-color: #28a745;
-            color: #fff;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Enter Password</h1>
-        <input type="password" id="password" placeholder="Enter password">
-        <button onclick="checkPassword()">Submit</button>
-        <p id="message" style="color: red; margin-top: 10px;"></p>
-    </div>
-
+    <title>Login</title>
     <script>
-        function checkPassword() {
-            var enteredPassword = document.getElementById('password').value;
-            var correctPassword = 'ethansciencetopic4guide';
-            if (enteredPassword === correctPassword) {
-                window.location.href = 'page.html';
+        function validateCredentials() {
+            // Get the input values
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Define valid credentials
+            const validCredentials = {
+                "brian": "lee",
+                "user": "pass",
+                "arunn": "vijay",
+                "guest": "1234"
+            };
+
+            // Check if the entered credentials are valid
+            if (validCredentials[username] && validCredentials[username] === password) {
+                // If valid, redirect to page.html
+                window.location.href = "page.html";
             } else {
-                document.getElementById('message').textContent = 'Incorrect password. Please try again.';
+                // If invalid, show an alert
+                alert("Invalid username or password!");
             }
         }
     </script>
+</head>
+<body>
+    <h2>Login</h2>
+    <form onsubmit="event.preventDefault(); validateCredentials();">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Login">
+    </form>
 </body>
 </html>
