@@ -3,142 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login Page</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            height: 100vh;
+            background: linear-gradient(135deg, #6e44ff, #c75dff);
+            background-size: 200% 200%;
+            animation: gradient 10s ease infinite;
+            overflow: hidden;
+            cursor: none; /* Hide default cursor */
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            animation: backgroundAnimation 10s ease-in-out infinite;
+            height: 100vh;
+            color: #fff;
         }
 
-        @keyframes backgroundAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .login-container {
-            background: rgba(255, 255, 255, 0.1);
+        .login-box {
+            background: rgba(0, 0, 0, 0.5);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             text-align: center;
             width: 300px;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: formLoad 1s ease-out forwards;
         }
 
-        @keyframes formLoad {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .login-box h1 {
+            margin: 0 0 20px;
+            font-size: 24px;
         }
 
-        h2 {
-            color: #ffffff;
-            margin-bottom: 20px;
-        }
-
-        label {
-            color: #ffffff;
-            display: block;
-            margin-bottom: 5px;
-            text-align: left;
-        }
-
-        input[type="text"],
-        input[type="password"] {
+        .login-box input {
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
+            margin: 10px 0;
             border: none;
             border-radius: 5px;
-            background: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            font-size: 16px;
-            outline: none;
-            transition: background 0.3s;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
-        input[type="text"]:focus,
-        input[type="password"]:focus {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        input[type="submit"] {
+        .login-box button {
             width: 100%;
             padding: 10px;
             border: none;
             border-radius: 5px;
-            background: #6a11cb;
-            color: #ffffff;
+            background-color: #6e44ff;
+            color: #fff;
             font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
-        input[type="submit"]:hover {
-            background: #2575fc;
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #fff, rgba(255, 255, 255, 0));
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 1s ease-out;
         }
 
-        .alert {
-            color: #ff6666;
-            margin-top: 10px;
-            opacity: 0;
-            transition: opacity 0.3s;
+        @keyframes sparkle {
+            0% { transform: scale(1) translateY(0); opacity: 1; }
+            100% { transform: scale(0) translateY(-100px); opacity: 0; }
         }
     </style>
-    <script>
-        function validateCredentials() {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-
-            const validCredentials = {
-                "brian": "lee",
-                "user": "pass",
-                "arunn": "sk1",
-                "guest": "1234"
-            };
-
-            if (validCredentials[username] && validCredentials[username] === password) {
-                window.location.href = "page.html";
-            } else {
-                const alertBox = document.getElementById("alert");
-                alertBox.textContent = "Invalid username or password!";
-                alertBox.style.opacity = 1;
-            }
-        }
-    </script>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form onsubmit="event.preventDefault(); validateCredentials();">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-            <input type="submit" value="Login">
-        </form>
-        <div id="alert" class="alert"></div>
+    <div class="container">
+        <div class="login-box">
+            <h1>Login</h1>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="checkCredentials()">Login</button>
+        </div>
     </div>
+
+    <script>
+        const credentials = {
+            "brian": "lee",
+            "user": "pass",
+            "arunn": "sk1",
+            "guest": "1234"
+        };
+
+        function checkCredentials() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (credentials[username] === password) {
+                window.location.href = 'page.html';
+            } else {
+                alert('Invalid credentials');
+            }
+        }
+
+        document.addEventListener('mousemove', (event) => {
+            createSparkle(event);
+        });
+
+        function createSparkle(event) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = `${event.clientX}px`;
+            sparkle.style.top = `${event.clientY}px`;
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
