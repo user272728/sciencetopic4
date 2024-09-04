@@ -4,129 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body {
+        body, html {
+            height: 100%;
             margin: 0;
-            padding: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #6e44ff, #c75dff);
-            background-size: 200% 200%;
-            animation: gradient 10s ease infinite;
-            overflow: hidden;
-            cursor: none; /* Hide default cursor */
-        }
-
-        @keyframes gradient {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
-        }
-
-        .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            color: #fff;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            overflow: hidden;
         }
 
-        .login-box {
-            background: rgba(0, 0, 0, 0.5);
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             text-align: center;
-            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(0.5);
+            opacity: 0;
+            animation: popUp 0.5s forwards;
         }
 
-        .login-box h1 {
-            margin: 0 0 20px;
-            font-size: 20px;
+        @keyframes popUp {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
-        .login-box input {
-            width: calc(100% - 22px);
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 80%;
             padding: 10px;
             margin: 10px 0;
             border: none;
             border-radius: 5px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            font-size: 16px;
+            outline: none;
         }
 
-        .login-box button {
-            width: calc(100% - 22px);
-            padding: 10px;
+        button {
+            padding: 10px 20px;
+            background: #667eea;
             border: none;
             border-radius: 5px;
-            background-color: #6e44ff;
-            color: #fff;
-            font-size: 16px;
+            color: white;
             cursor: pointer;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #764ba2;
         }
 
         .sparkle {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(circle, #fff, rgba(255, 255, 255, 0));
+            width: 5px;
+            height: 5px;
+            background: white;
             border-radius: 50%;
             pointer-events: none;
-            transform: translate(-50%, -50%);
-            animation: sparkle 1s ease-out;
+            animation: fade 1s linear forwards;
         }
 
-        @keyframes sparkle {
-            0% { transform: scale(1) translateY(0); opacity: 1; }
-            100% { transform: scale(0) translateY(50px); opacity: 0; }
+        @keyframes fade {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
         }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="login-box">
-            <h1>Login to Ethan's Science Topic 4 Guide</h1>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button onclick="checkCredentials()">Login</button>
-        </div>
-    </div>
 
-    <script>
-        const credentials = {
-            "brian": "lee",
-            "user": "pass",
-            "arunn": "sk1",
-            "guest": "1234"
-        };
+<div class="login-container">
+    <h1>Login</h1>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginButton">Login</button>
+    <p id="error" style="color:red; display:none;">Invalid credentials, please try again.</p>
+</div>
 
-        function checkCredentials() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+<script>
+    const credentials = {
+        "brian": "lee",
+        "user": "pass",
+        "arunn": "sk1",
+        "guest": "1234",
+        "ethan": "cdeb1"
+    };
+
+    $(document).ready(function () {
+        $(document).mousemove(function (e) {
+            let sparkle = $('<div class="sparkle"></div>');
+            $('body').append(sparkle);
+            sparkle.css({
+                left: e.pageX + 'px',
+                top: e.pageY + 'px',
+            });
+
+            sparkle.animate({
+                width: "10px",
+                height: "10px",
+                opacity: 0
+            }, 1000, function () {
+                $(this).remove();
+            });
+        });
+
+        $('#loginButton').click(function () {
+            const username = $('#username').val();
+            const password = $('#password').val();
 
             if (credentials[username] === password) {
                 window.location.href = 'page.html';
             } else {
-                alert('Invalid credentials');
+                $('#error').fadeIn().delay(2000).fadeOut();
             }
-        }
-
-        document.addEventListener('mousemove', (event) => {
-            createSparkle(event);
         });
+    });
+</script>
 
-        function createSparkle(event) {
-            const sparkle = document.createElement('div');
-            sparkle.classList.add('sparkle');
-            sparkle.style.left = `${event.clientX}px`;
-            sparkle.style.top = `${event.clientY + 20}px`; // Position sparkle below the cursor
-            document.body.appendChild(sparkle);
-
-            setTimeout(() => {
-                sparkle.remove();
-            }, 1000);
-        }
-    </script>
 </body>
 </html>
